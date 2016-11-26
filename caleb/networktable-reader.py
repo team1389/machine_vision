@@ -1,5 +1,5 @@
 from networktables import NetworkTables
-from skvideo.io  import vread
+#from skvideo.io  import vread
 import sys
 import cv2
 
