@@ -62,11 +62,36 @@ cy2 = int(M2['m01']/M2['m00'])
 cv2.circle(img,(cx2,cy2), 5, (0,0,255), -1)
 
 # Next steps: find the center point between the two pieces of tape
-center = (round((cx1 + cx2)/2), round((cy1 + cy2)/2))
+centerX = round((cx1 + cx2)/2)
+centerY = round((cy1 + cy2)/2)
+
+center = (centerX, centerY)
+
 cv2.circle(img, center, 5, (255,0,0), -1)
 height, width, channels = img.shape
 img_center = (width, height)
 # cv2.circle(img, img_center, 5)
+
+#Get center of image
+height, width = img.shape[:2]
+
+trueCenterX = int(width / 2)
+trueCenterY = int(height / 2)
+
+cv2.circle(img, (trueCenterX, trueCenterY), 5, (0, 0, 0), -1)
+
+#Draw line between center of image and center of tape
+cv2.line(img, (trueCenterX, trueCenterY), center, (0,255,0),2)
+#Draw Horizontal line
+cv2.line(img,(trueCenterX, centerY), center,(255,0,0),2)
+#Draw Vertical line
+cv2.line(img,(trueCenterX, trueCenterY), (trueCenterX, centerY),(0,0,255),2)
+
+
+lengthOffset = trueCenterX - centerX
+heightOffset = trueCenterY - centerY
+
+print("Length Offset: " + str(abs(lengthOffset)) + "\n", "Height Offset: " + str(abs(heightOffset)))
 
 cv2.imshow("image", img)
 cv2.waitKey(0)
