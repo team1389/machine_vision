@@ -1,14 +1,13 @@
 from networktables import NetworkTables
 from skvideo.io  import vread
-import time
+import sys
 import cv2
 
-NetworkTables.initialize('10.208.68.105')
+NetworkTables.initialize(sys.argv[1])
 sd = NetworkTables.getTable('MotionTracking')
 
 offsetX = str(sd.getNumber('offsetX', 'N/A'))
 offsetY = str(sd.getNumber('offsetY', 'N/A'))
-
 
 while(True):
     newOffsetX = str(sd.getNumber('offsetX', 'N/A'))
