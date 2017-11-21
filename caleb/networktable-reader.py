@@ -1,6 +1,6 @@
 from networktables import NetworkTables
 #from skvideo.io  import vread
-import sys
+import sysS
 import cv2
 
 NetworkTables.initialize(sys.argv[1])
