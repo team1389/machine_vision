@@ -2,6 +2,7 @@ from networktables import NetworkTables as nt
 import numpy as np
 import cv2
 import sys
+import base64
 
 lower = np.array([85,50,50])
 upper = np.array([93,255,255])
@@ -60,6 +61,7 @@ while True:
         cv2.line(frame, (trueCenterX, centerY), center, (0,255,0), 2)
         cv2.line(frame, (trueCenterX, trueCenterY), (trueCenterX, centerY), (0,0,255), 2)
 
+        pid_table.putString('frame_raw', base64.b64encode(frame.read()))
         cv2.imshow("frame", frame)
         cv2.waitKey(1)
     except Exception:
