@@ -7,13 +7,13 @@ lower = np.array([85,50,50])
 upper = np.array([93,255,255])
 
 capture = cv2.VideoCapture(0)
-frame = capture.read()
 
 nt.initialize()
-pwm_table = nt.getTable('pwm_offset_values')
+pid_table = nt.getTable('pid_offset_values')
 
 while True:
 
+    success, frame = capture.read()
     tape_hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
     res = cv2.inRange(tape_hsv, lower, upper)
     kernel = np.ones((4,4),np.uint8)
@@ -21,7 +21,7 @@ while True:
     blur = cv2.blur(opened, (3,3))
     (_, cnts, _) = cv2.findContours(blur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    if len(cnts) >= 1:
+    try:
         
         cnt1 = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
         cnt2 = sorted(cnts, key = cv2.contourArea, reverse = True)[1]
@@ -52,8 +52,8 @@ while True:
         trueCenterX = int(width/2)
         trueCenterY = int(height/2)
 
-        pwm_table.putNumer('offset_x', (trueCenterX-centerX)*-1)
-        pwm_table.putNumer('offset_y', (trueCenterY-centerY))
+        pid_table.putNumber('offset_x', (trueCenterX-centerX)*-1)
+        pid_table.putNumber('offset_y', (trueCenterY-centerY))
 
         cv2.circle(frame, (trueCenterX, trueCenterY), 2, (0,0,0), -1)
         cv2.line(frame, (trueCenterX, trueCenterY), center, (255,0,0), 2)
@@ -62,9 +62,7 @@ while True:
 
         cv2.imshow("frame", frame)
         cv2.waitKey(1)
-
-    else:
-
-        print("ERROR: Contours not found!")
+    except Exception:
+	print("Error")
 
 cv2.destroyAllWindows()
