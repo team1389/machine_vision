@@ -22,7 +22,7 @@ while True:
     (_, cnts, _) = cv2.findContours(blur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     try:
-        
+
         cnt1 = sorted(cnts, key = cv2.contourArea, reverse = True)[0]
         cnt2 = sorted(cnts, key = cv2.contourArea, reverse = True)[1]
 
@@ -63,6 +63,6 @@ while True:
         cv2.imshow("frame", frame)
         cv2.waitKey(1)
     except Exception:
-	print("Error")
+        print("Error")
 
 cv2.destroyAllWindows()
