@@ -21,6 +21,7 @@ while True:
     opened = cv2.morphologyEx(res, cv2.MORPH_OPEN, kernel)
     blur = cv2.blur(opened, (3,3))
     (_, cnts, _) = cv2.findContours(blur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    pid_table.putString('frame_raw', base64.b64encode(frame.read()))
 
     try:
 
@@ -61,7 +62,6 @@ while True:
         cv2.line(frame, (trueCenterX, centerY), center, (0,255,0), 2)
         cv2.line(frame, (trueCenterX, trueCenterY), (trueCenterX, centerY), (0,0,255), 2)
 
-        pid_table.putString('frame_raw', base64.b64encode(frame.read()))
         cv2.imshow("frame", frame)
         cv2.waitKey(1)
     except Exception:
