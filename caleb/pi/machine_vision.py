@@ -22,6 +22,8 @@ while True:
     blur = cv2.blur(opened, (3,3))
     (_, cnts, _) = cv2.findContours(blur.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     pid_table.putString('frame_raw', base64.b64encode(frame.read()))
+    with open(frame, "rb") as image:
+        pid_table.putRaw(bytearray(image.read()))
 
     try:
 

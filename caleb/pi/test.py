@@ -8,5 +8,8 @@ sd = NetworkTables.getTable('pid_offset_values')
 
 
 while(True):
-	frame_raw = sd.getString('frame_raw', 'na')
-	cv2.imshow('image', base64.b64decode(frame_raw))
+	frame_raw = sd.getRaw('frame_raw', 'na')
+	try:
+		cv2.imshow('image', bytearray(frame_raw))
+	except Exception:
+		print("error decoding")
